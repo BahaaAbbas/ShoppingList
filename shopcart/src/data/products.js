@@ -49,4 +49,18 @@ export const products = [
     image: deskLampImg,
     description: "LED desk lamp with adjustable brightness and color.",
   },
+  {
+    id: "7",
+    name: "USB-C Hub",
+    price: 89.99,
+    image: usbHubImg,
+    description: "7-in-1 USB-C hub with 4K HDMI and fast charging",
+  },
+  {
+    id: "8",
+    name: "Desk Lamp",
+    price: 69.99,
+    image: deskLampImg,
+    description: "LED desk lamp with adjustable brightness and color.",
+  },
 ];
