@@ -5,10 +5,12 @@ import ButtonTech from "./components/common/ButtonTech";
 import Card from "./components/common/Card";
 import Hero from "./components/common/Hero";
 import { products } from "./data/products";
+import ShoppingCart from "./components/shop/ShoppingCart";
 
 function TechStore() {
   const [itemCount, setItemCount] = useState(0);
   const [cartItems, setCartItems] = useState([]);
+  const [isShoppingCartOpen, setIsShoppingCartOpen] = useState(false);
 
   const handleAddToCart = (product) => {
     setItemCount((prev) => prev + 1);
@@ -25,9 +27,38 @@ function TechStore() {
     });
   };
 
+  const totalPrice = cartItems.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0
+  );
+  const handleIncrease = (id) => {
+    setCartItems((prev) =>
+      prev.map((item) =>
+        item.id === id ? { ...item, quantity: item.quantity + 1 } : item
+      )
+    );
+  };
+
+  const handleDecrease = (id) => {
+    setCartItems((prev) =>
+      prev
+        .map((item) =>
+          item.id === id ? { ...item, quantity: item.quantity - 1 } : item
+        )
+        .filter((item) => item.quantity > 0)
+    );
+  };
+
+  const handleDelete = (id) => {
+    setCartItems((prev) => prev.filter((item) => item.id !== id));
+  };
   return (
-    <div className="min-h-screen">
-      <Header itemCount={itemCount} />
+    <div className="min-h-screen relative">
+      <Header
+        itemCount={itemCount}
+        cartOpen={isShoppingCartOpen}
+        setCartOpen={setIsShoppingCartOpen}
+      />
       <main>
         <div className="tech ">
           <Hero />
@@ -50,6 +81,16 @@ function TechStore() {
           <ButtonTech title="Submit" />
         </div>
       </main>
+
+      <ShoppingCart
+        cart={cartItems}
+        cartOpen={isShoppingCartOpen}
+        setCartOpen={setIsShoppingCartOpen}
+        totalPrice={totalPrice}
+        onIncrease={handleIncrease}
+        onDecrease={handleDecrease}
+        onDelete={handleDelete}
+      />
     </div>
   );
 }
