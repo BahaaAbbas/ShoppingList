@@ -18,7 +18,7 @@ const Card = ({ imageURL, title, description, price, onAddToCart }) => {
           <ButtonTech
             title="Add To Cart"
             icon={<CiShoppingCart />}
-            onAddToCart={onAddToCart}
+            onClick={onAddToCart}
           />
         </div>
       </div>

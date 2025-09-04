@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./TechStore.css";
 import Header from "./components/common/Header";
 import ButtonTech from "./components/common/ButtonTech";
@@ -6,14 +6,17 @@ import Card from "./components/common/Card";
 import Hero from "./components/common/Hero";
 import { products } from "./data/products";
 import ShoppingCart from "./components/shop/ShoppingCart";
+import Checkout from "./components/checkout/Checkout";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function TechStore() {
   const [itemCount, setItemCount] = useState(0);
   const [cartItems, setCartItems] = useState([]);
   const [isShoppingCartOpen, setIsShoppingCartOpen] = useState(false);
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
 
   const handleAddToCart = (product) => {
-    setItemCount((prev) => prev + 1);
     setCartItems((prev) => {
       const exist = prev.find((item) => item.id === product.id);
       if (exist) {
@@ -23,14 +26,18 @@ function TechStore() {
             : item
         );
       }
+
       return [...prev, { ...product, quantity: 1 }];
     });
   };
 
-  const totalPrice = cartItems.reduce(
-    (acc, item) => acc + item.price * item.quantity,
-    0
-  );
+  useEffect(() => {
+    setItemCount(cartItems.reduce((acc, item) => acc + item.quantity, 0));
+  }, [cartItems]);
+
+  const totalPrice = cartItems
+    .reduce((acc, item) => acc + item.price * item.quantity, 0)
+    .toFixed(2);
   const handleIncrease = (id) => {
     setCartItems((prev) =>
       prev.map((item) =>
@@ -52,13 +59,14 @@ function TechStore() {
   const handleDelete = (id) => {
     setCartItems((prev) => prev.filter((item) => item.id !== id));
   };
+
+  const handleClearCart = () => {
+    setCartItems([]);
+  };
+
   return (
     <div className="min-h-screen relative">
-      <Header
-        itemCount={itemCount}
-        cartOpen={isShoppingCartOpen}
-        setCartOpen={setIsShoppingCartOpen}
-      />
+      <Header itemCount={itemCount} setCartOpen={setIsShoppingCartOpen} />
       <main>
         <div className="tech ">
           <Hero />
@@ -77,8 +85,6 @@ function TechStore() {
               );
             })}
           </div>
-
-          <ButtonTech title="Submit" />
         </div>
       </main>
 
@@ -86,11 +92,21 @@ function TechStore() {
         cart={cartItems}
         cartOpen={isShoppingCartOpen}
         setCartOpen={setIsShoppingCartOpen}
+        setIsCheckoutOpen={setIsCheckoutOpen}
         totalPrice={totalPrice}
         onIncrease={handleIncrease}
         onDecrease={handleDecrease}
         onDelete={handleDelete}
       />
+
+      <Checkout
+        cart={cartItems}
+        totalPrice={totalPrice}
+        isCheckoutOpen={isCheckoutOpen}
+        setIsCheckoutOpen={setIsCheckoutOpen}
+        clearCart={handleClearCart}
+      />
+      <ToastContainer />
     </div>
   );
 }

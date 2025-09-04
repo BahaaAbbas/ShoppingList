@@ -2,7 +2,7 @@ import { Button } from "@mui/material";
 import React, { useState } from "react";
 import { CiShoppingCart } from "react-icons/ci";
 
-const Header = ({ itemCount, cartOpen, setCartOpen }) => {
+const Header = ({ itemCount, setCartOpen }) => {
   return (
     <header className="border-b border-b-[#F8F8FD] backdrop-blur-sm bg-white/70 sticky top-0 z-100">
       <div className=" flex justify-between items-center py-4 px-8">

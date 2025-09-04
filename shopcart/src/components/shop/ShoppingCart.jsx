@@ -7,6 +7,7 @@ const ShoppingCart = ({
   cart,
   cartOpen,
   setCartOpen,
+  setIsCheckoutOpen,
   totalPrice,
   onIncrease,
   onDecrease,
@@ -62,7 +63,13 @@ const ShoppingCart = ({
                 </p>
               </div>
 
-              <ButtonTech title={"Proceed to Checkout"} />
+              <ButtonTech
+                title={"Proceed to Checkout"}
+                onClick={() => {
+                  setIsCheckoutOpen(true);
+                  setCartOpen(false);
+                }}
+              />
             </div>
           </>
         )}

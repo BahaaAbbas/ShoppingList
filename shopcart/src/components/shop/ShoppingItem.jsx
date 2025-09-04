@@ -2,7 +2,8 @@ import React from "react";
 import shoplist from "../../../src/assets/shoplist.PNG";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ShoppingItem = ({
   id,
@@ -15,34 +16,18 @@ const ShoppingItem = ({
   onDelete,
 }) => {
   const handleDeleteClick = () => {
-    toast(
-      ({ closeToast }) => (
-        <div className="flex flex-col gap-2">
-          <p>
-            Are you sure you want to remove <b>{title}</b>?
-          </p>
-          <div className="flex gap-2 justify-end">
-            <button
-              className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
-              onClick={closeToast}
-            >
-              Cancel
-            </button>
-            <button
-              className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
-              onClick={() => {
-                onDelete(id);
-                toast.dismiss();
-                toast.success(`${title} removed from cart`);
-              }}
-            >
-              Delete
-            </button>
-          </div>
-        </div>
-      ),
-      { autoClose: false }
-    );
+    toast.info(` Removing ${title}...`, {
+      position: "top-center",
+      autoClose: 1000,
+    });
+
+    setTimeout(() => {
+      onDelete(id);
+      toast.success(`${title} removed from cart`, {
+        position: "top-center",
+        autoClose: 2000,
+      });
+    }, 1000);
   };
 
   return (
@@ -58,12 +43,18 @@ const ShoppingItem = ({
         <p className="text-[#60A4F8] font-semibold text-xl">${price}</p>
 
         <div className="flex items-center gap-3">
-          <button className="p-1 rounded-md border border-gray-300 hover:bg-green-400 cursor-pointer">
-            <FaMinus size={18} onClick={() => onDecrease(id)} />
+          <button
+            className="p-1 rounded-md border border-gray-300 hover:bg-green-400 cursor-pointer"
+            onClick={() => onDecrease(id)}
+          >
+            <FaMinus size={18} />
           </button>
           <p className="w-6 text-center font-medium text-xl">{quantity}</p>
-          <button className="p-1 rounded-md border border-gray-300  hover:bg-green-400 cursor-pointer">
-            <FaPlus size={18} onClick={() => onIncrease(id)} />
+          <button
+            className="p-1 rounded-md border border-gray-300  hover:bg-green-400 cursor-pointer"
+            onClick={() => onIncrease(id)}
+          >
+            <FaPlus size={18} />
           </button>
         </div>
       </div>
@@ -71,7 +62,6 @@ const ShoppingItem = ({
       <button className="text-red-400 hover:text-red-700 transition cursor-pointer">
         <MdDelete size={32} onClick={handleDeleteClick} />
       </button>
-      <ToastContainer />
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import React from "react";
 
-const ButtonTech = ({ title, icon, onAddToCart }) => {
+const ButtonTech = ({ title, icon, onClick }) => {
   return (
     <button
       className={`
@@ -16,7 +16,7 @@ const ButtonTech = ({ title, icon, onAddToCart }) => {
         hover:from-green-600 hover:to-blue-600
         transition-colors duration-300
       `}
-      onClick={() => onAddToCart?.()}
+      onClick={() => onClick?.()}
     >
       {icon && <span className="text-3xl">{icon}</span>}
       {title}
