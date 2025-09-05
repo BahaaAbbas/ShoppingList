@@ -1,5 +1,5 @@
 import { Button } from "@mui/material";
-import React, { useState } from "react";
+import React from "react";
 import { CiShoppingCart } from "react-icons/ci";
 
 const Header = ({ itemCount, setCartOpen }) => {

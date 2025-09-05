@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import "./TechStore.css";
 import Header from "./components/common/Header";
-import ButtonTech from "./components/common/ButtonTech";
 import Card from "./components/common/Card";
 import Hero from "./components/common/Hero";
 import { products } from "./data/products";
 import ShoppingCart from "./components/shop/ShoppingCart";
 import Checkout from "./components/checkout/Checkout";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function TechStore() {
@@ -28,6 +27,10 @@ function TechStore() {
       }
 
       return [...prev, { ...product, quantity: 1 }];
+    });
+    toast.success(`${product.name} added successfuly to cart `, {
+      position: "top-center",
+      autoClose: 2000,
     });
   };
 
